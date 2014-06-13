@@ -36,7 +36,7 @@ def reload_config():
     ## 
     ##TODO: INSERT CODE TO LOAD YOUR CONFIGURATION HERE, eg. :  ## 
     #newconfig=ConfigParser.ConfigParser()
-    #newconfig.readfp(open(theconfigfile))
+    #newconfig.readfp(open(CONFIGFILE))
     
     #dconfdir=os.path.join(os.path.dirname(CONFIGFILE),'conf.d')
     #if os.path.isdir(dconfdir):
