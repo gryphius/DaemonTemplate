@@ -1,0 +1,14 @@
+#copy this to /usr/lib/systemd/system/__SHORTNAME__.service
+#systemctl enable __SHORTNAME__
+#systemctl start __SHORTNAME__
+
+[Unit]
+Description=__SHORTDESCRIPTION__
+
+[Service]
+Type=forking
+PIDFile=/run/__SHORTNAME__.pid
+ExecStart=/usr/bin/__SHORTNAME__ --pidfile=/run/__SHORTNAME__.pid
+
+[Install]
+WantedBy=multi-user.target
