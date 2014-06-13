@@ -2,6 +2,7 @@
 import sys
 import optparse
 import os
+import re
 
 def errout(message):
     sys.stderr.write(message+"\n")
@@ -69,6 +70,10 @@ if __name__ == '__main__':
         if getattr(opts,requirement)==None:
             setattr(opts, requirement, raw_input("%s: "%requirement).strip())
     
+    if not re.match('^[a-z]+$',opts.shortname):
+        errout("shortname must be one word with only lowercase letters")
+        sys.exit(1)
+        
     if opts.longname==None:
         opts.longname=opts.shortname
     if opts.longdescription==None:
