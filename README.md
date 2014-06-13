@@ -7,21 +7,21 @@ so you can focus on the code your daemon is supposed to run
 The script prepares....
 
  - forking to background
- - write PID file
+ - writing/deleting the PID file
  - set up logging to syslog
+ - program argument handling
  - template code for config file handling
  - python packaging config (setup.py)
- - init/systemd scripts
+ - linux distribution init/systemd scripts
  
 
 How-To
 ------
 
  - check out this project from github
-
- - run the makeapplication.py script with your project information  
+ - run the makeapplication.py script with your project information to create the daemon project
  
-
+Example:
 ```
 ./makeapplication.py -d ~/workspace/DemoDaemon/ \
  --short-name guybrush \
@@ -32,3 +32,6 @@ How-To
  --author-email="threepwood@monkeyisland.example.com" \
  --website="http://www.insultswordfighting.example.com/"
 ```
+
+ - search the generated code for "TODO: " comments and add your code
+
