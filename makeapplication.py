@@ -70,7 +70,7 @@ if __name__ == '__main__':
         if getattr(opts,requirement)==None:
             setattr(opts, requirement, raw_input("%s: "%requirement).strip())
     
-    if not re.match('^[a-z]+$',opts.shortname):
+    if not re.match('^[a-z]+$',opts.shortname)!=None:
         errout("shortname must be one word with only lowercase letters")
         sys.exit(1)
         
