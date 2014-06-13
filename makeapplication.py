@@ -96,7 +96,10 @@ if __name__ == '__main__':
     
     permissions={
        'src/bin/__SHORTNAME__':0755,     
-       'extra/distributionscripts/centos/6/__SHORTNAME__':0755,          
+       'extra/distributionscripts/centos/6/__SHORTNAME__':0755,  
+       'extra/distributionscripts/redhat/6/__SHORTNAME__':0755, 
+       'extra/distributionscripts/debian/__SHORTNAME__':0755,
+       'extra/distributionscripts/suse/__SHORTNAME__':0755,                 
     }
     
     if not os.path.isdir(opts.directory):

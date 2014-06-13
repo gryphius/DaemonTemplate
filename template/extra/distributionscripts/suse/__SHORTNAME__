@@ -1,0 +1,69 @@
+#!/bin/sh
+#
+# Startup script for __SHORTNAME__
+#
+# chkconfig: 2345 65 38
+# description: __SHORTDESCRIPTION__
+# processname: __SHORTNAME__
+# pidfile: /var/run/__SHORTNAME__.pid
+
+### BEGIN INIT INFO
+# Provides:          __SHORTNAME__
+# Required-Start:    $remote_fs $syslog $network
+# Required-Stop:     $remote_fs $syslog $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: __SHORTDESCRIPTION__
+# Description:       __LONGDESCRIPTION__
+### END INIT INFO
+
+. /etc/rc.status
+
+# Reset status of this service
+rc_reset
+
+BIN=/usr/bin/__SHORTNAME__
+PID=/var/run/__SHORTNAME__.pid
+
+test -x $BIN || {
+        echo "$BIN not installed";
+        if [ "$1" = "stop" ] ; then
+                exit 0
+        else
+                exit 5
+        fi
+        }
+
+case "$1" in
+        start)
+                echo -n "Starting __SHORTNAME__ "
+                startproc $BIN
+                rc_status -v
+                ;;
+        stop)
+                echo -n "Stopping __SHORTNAME__ "
+                killproc -TERM $BIN
+				rm -f $PID
+                rc_status -v
+                ;;
+        restart)
+                $0 stop
+                $0 start
+                rc_status
+                ;;
+        reload)
+                echo -n "Reload __SHORTNAME__ config: "
+                killproc -HUP $BIN
+                rc_status -v
+                ;;
+        status)
+                echo -n "Checking for service __SHORTNAME__ "
+                checkproc $BIN
+                rc_status -v
+                ;;
+        *)
+                echo "Usage: $0 {start|stop|status|restart|reload}"
+        exit 1
+        ;;
+esac
+rc_exit

@@ -1,0 +1,48 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          __SHORTNAME__
+# Required-Start:    $network $syslog
+# Required-Stop:     $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      
+# Short-Description: __SHORTDESCRIPTION__ 
+# Description:       __LONGDESCRIPTION__ 
+### END INIT INFO
+
+set -e
+
+executable="/usr/local/bin/__SHORTNAME__"
+PIDFILE="/var/run/__SHORTNAME__.pid"
+
+OPTIONS=""
+MODULES=""
+
+# Get lsb functions
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    log_begin_msg "Starting __LONGNAME__ : "
+    start-stop-daemon --start --quiet --exec "$executable" --pidfile "$PIDFILE" -- $OPTIONS
+    log_end_msg $?
+    ;;
+  stop)
+    log_begin_msg "Stopping __LONGNAME__: "
+    start-stop-daemon --stop --quiet --retry 2 --pidfile "$PIDFILE"
+    log_end_msg $?
+    ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  reload|force-reload) 
+    log_begin_msg "Reloading __SHORTNAME__ : "
+    start-stop-daemon --stop --signal HUP --pidfile "$PIDFILE"
+    log_end_msg $?
+    ;;
+  *)
+    log_success_msg "Usage: $0 {start|stop|restart|reload|force-reload}"
+    exit 1
+esac
+

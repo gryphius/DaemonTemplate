@@ -1,0 +1,52 @@
+#!/bin/sh
+#
+# Startup script for __SHORTNAME__
+#
+# chkconfig: 2345 65 38
+# description: __SHORTDESCRIPTION__
+# processname: __SHORTNAME__
+# pidfile: /var/run/__SHORTNAME__.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# See how we were called.
+case "$1" in
+  start)
+        echo -n "Starting __LONGNAME__: "
+        daemon /usr/bin/__SHORTNAME__ --pidfile /var/run/__SHORTNAME__.pid
+        RETVAL=$?
+        echo
+        ;;
+  stop)
+        echo -n "Stopping __LONGNAME__: "
+        killproc __SHORTNAME__
+        rm -f /var/run/__SHORTNAME__.pid
+        RETVAL=$?
+        echo
+        ;;
+  status)
+        status __SHORTNAME__
+        RETVAL=$?
+        ;;
+  restart)
+        $0 stop
+        $0 start
+        RETVAL=$?
+        ;;
+  reload)
+  		echo -n "Reloading __LONGNAME__: "
+        killproc __SHORTNAME__ -HUP
+        RETVAL=$?
+        echo
+        ;;
+  		
+  *)
+        echo "Usage: __SHORTNAME__ {start|stop|status|restart|reload}"
+        exit 1
+esac
+
+exit $RETVAL
