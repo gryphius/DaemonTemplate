@@ -22,7 +22,7 @@
 # Reset status of this service
 rc_reset
 
-BIN=/usr/bin/__SHORTNAME__
+BIN=/usr/local/bin/__SHORTNAME__
 PID=/var/run/__SHORTNAME__.pid
 
 test -x $BIN || {
