@@ -9,7 +9,9 @@ def errout(message):
 
 def replace_variables(text,values):
     for k,v in values.iteritems():
-        text=text.replace(k,v)
+        if v==None:
+            v=''
+            text=text.replace(k,v)
     return text
 
 def transfer(templatedir,targetdir,values,filenameoverrides,permissions):
