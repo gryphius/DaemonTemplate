@@ -10,8 +10,8 @@ def errout(message):
 def replace_variables(text,values):
     for k,v in values.iteritems():
         if v==None:
-            v=''
-            text=text.replace(k,v)
+            continue
+        text=text.replace(k,v)
     return text
 
 def transfer(templatedir,targetdir,values,filenameoverrides,permissions):
@@ -81,7 +81,6 @@ if __name__ == '__main__':
     if opts.longdescription==None:
         opts.longdescription=opts.shortdescription
 
-    
     values={
         '__SHORTNAME__': opts.shortname,
         '__LONGNAME__': opts.longname,
