@@ -7,8 +7,8 @@ Description=__SHORTDESCRIPTION__
 
 [Service]
 Type=forking
-PIDFile=/run/__SHORTNAME__.pid
-ExecStart=/usr/bin/__SHORTNAME__ --pidfile=/run/__SHORTNAME__.pid
+PIDFile=/run/__EXECUTABLE__.pid
+ExecStart=/usr/bin/__EXECUTABLE__ --pidfile=/run/__EXECUTABLE__.pid
 
 [Install]
 WantedBy=multi-user.target

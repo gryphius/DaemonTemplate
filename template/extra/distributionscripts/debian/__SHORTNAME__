@@ -11,8 +11,8 @@
 
 set -e
 
-executable="/usr/local/bin/__SHORTNAME__"
-PIDFILE="/var/run/__SHORTNAME__.pid"
+executable="/usr/local/bin/__EXECUTABLE__"
+PIDFILE="/var/run/__EXECUTABLE__.pid"
 
 OPTIONS=""
 MODULES=""

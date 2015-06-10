@@ -4,8 +4,8 @@
 #
 # chkconfig: 2345 65 38
 # description: __SHORTDESCRIPTION__
-# processname: __SHORTNAME__
-# pidfile: /var/run/__SHORTNAME__.pid
+# processname: __EXECUTABLE__
+# pidfile: /var/run/__EXECUTABLE__.pid
 
 # Source function library.
 . /etc/rc.d/init.d/functions
@@ -17,19 +17,19 @@
 case "$1" in
   start)
         echo -n "Starting __LONGNAME__: "
-        daemon /usr/bin/__SHORTNAME__ --pidfile /var/run/__SHORTNAME__.pid
+        daemon /usr/bin/__EXECUTABLE__ --pidfile /var/run/__EXECUTABLE__.pid
         RETVAL=$?
         echo
         ;;
   stop)
         echo -n "Stopping __LONGNAME__: "
-        killproc __SHORTNAME__
-        rm -f /var/run/__SHORTNAME__.pid
+        killproc __EXECUTABLE__
+        rm -f /var/run/__EXECUTABLE__.pid
         RETVAL=$?
         echo
         ;;
   status)
-        status __SHORTNAME__
+        status /usr/bin/__EXECUTABLE__
         RETVAL=$?
         ;;
   restart)

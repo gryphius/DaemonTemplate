@@ -58,6 +58,7 @@ if __name__ == '__main__':
     parser.add_option("-d","--directory",action="store",dest="directory",help="target directory for the new project")
     parser.add_option("-n","--short-name",action="store",dest="shortname",help="short name of the project, one word")
     parser.add_option("--long-name",action="store",dest="longname",help="long name of the project, can be multiple words")
+    parser.add_option("--executable-name",action="store",dest="executable",help="name of the execuable (without a path). defaults to <shortname>")
     parser.add_option("--short-description",action="store",dest="shortdescription",help="short description of the project")
     parser.add_option("--long-description",action="store",dest="longdescription",help="long description of the project")
     parser.add_option("--author-name",action="store",dest="authorname",help="Author's Name")
@@ -80,6 +81,8 @@ if __name__ == '__main__':
         opts.longname=opts.shortname
     if opts.longdescription==None:
         opts.longdescription=opts.shortdescription
+    if opts.executable==None:
+        opts.executable=opts.shortname
 
     values={
         '__SHORTNAME__': opts.shortname,
@@ -89,6 +92,7 @@ if __name__ == '__main__':
         '__AUTHORNAME__': opts.authorname,
         '__AUTHOREMAIL__': opts.authoremail,
         '__WEBSITE__': opts.website,
+        '__EXECUTABLE__': opts.executable,
     }
     
     filenameoverrides={
