@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 import glob
 
 
@@ -10,8 +10,11 @@ setup(name = "__SHORTNAME__",
     author_email = "__AUTHOREMAIL__",
     package_dir={'':'src'},
     packages = ['__SHORTNAME__',],
-    scripts = ["src/bin/__SHORTNAME__"
-               ],
+    entry_points={
+        'console_scripts': [
+           '__EXECUTABLE__=__SHORTNAME__:main ',
+        ],
+    },
     long_description = """__LONGDESCRIPTION__""" ,
     data_files=[
                ('/etc/__SHORTNAME__',glob.glob('conf/*.dist')),
