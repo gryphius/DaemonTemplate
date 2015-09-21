@@ -17,12 +17,13 @@ class Daemon(object):
         except:
             pass
 
-    def write_pid(self,pidfile,pid=None):
-        if pid==None:
-            pid=os.getpid()
+    def write_pid(self, pid=None):
+        if pid == None:
+            pid = os.getpid()
         atexit.register(self.del_pid)
-        file(self.pidfile,'w+').write("%s\n" % pid)
-
+        pidfd=os.open(self.pidfile, os.O_WRONLY|os.O_CREAT, 0644)
+        os.write(pidfd, "%s\n" % pid)
+        os.close(pidfd)
 
     def daemonize(self):
         """Detach a process from the controlling terminal and run it in the
@@ -72,7 +73,7 @@ class Daemon(object):
         # write pidfile
         if self.pidfile!=None:
             try:
-                self.write_pid(self.pidfile)
+                self.write_pid()
             except Exception,e:
                 sys.stderr.write("Could not write pid %s: %s"%(self.pidfile,str(e)))
         return(0)
@@ -88,9 +89,3 @@ class Daemon(object):
         if groupname!=None:
             running_gid = grp.getgrnam(groupname).gr_gid
             os.setgid(running_gid)
-
-
-        
-        
-        
-        
