@@ -1,8 +1,6 @@
-import time
-import logging
+import logging.config
 from daemon import Daemon
 
-import os
 import sys
 import time
 import signal
@@ -128,7 +126,7 @@ def main():
         daemon.drop_privileges(opts.user,opts.group)
 
         if opts.logconfig:
-            logging.config.fileConfig(opts.loggingconfig)
+            logging.config.fileConfig(opts.logconfig)
 
         if opts.foreground:
             #log to console
