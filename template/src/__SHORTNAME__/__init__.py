@@ -7,7 +7,7 @@ import sys
 import time
 import signal
 import logging
-import optparse
+import argparse
 import traceback
 
 from logging.handlers import SysLogHandler
@@ -105,15 +105,15 @@ def sigterm(signum,frame):
 def main():
     global CONFIGFILE,CONTROLLER
 
-    parser=optparse.OptionParser()
-    parser.add_option("-f","--foreground",action="store_true",dest="foreground",default=False,help="do not fork to background")
-    parser.add_option("--pidfile",action="store",dest="pidfile")
-    parser.add_option("-c","--config",action="store",dest="config",help="configfile",default="/etc/__SHORTNAME__/__SHORTNAME__.conf")
-    parser.add_option("--log-config",action="store",dest="logconfig",help="logging configuration file")
-    parser.add_option("--user",action="store",dest="user", help="run as user")
-    parser.add_option("--group",action="store",dest="group", help="run as group")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f","--foreground",action="store_true",dest="foreground",default=False,help="do not fork to background")
+    parser.add_argument("--pidfile",action="store",dest="pidfile")
+    parser.add_argument("-c","--config",action="store",dest="config",help="configfile",default="/etc/__SHORTNAME__/__SHORTNAME__.conf")
+    parser.add_argument("--log-config",action="store",dest="logconfig",help="logging configuration file")
+    parser.add_argument("--user",action="store",dest="user", help="run as user")
+    parser.add_argument("--group",action="store",dest="group", help="run as group")
 
-    (opts,args)=parser.parse_args()
+    opts = parser.parse_args()
 
     #keep a copy of stderr in case something goes wrong
     stderr=sys.stderr
