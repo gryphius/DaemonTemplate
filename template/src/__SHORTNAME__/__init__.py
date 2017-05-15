@@ -1,5 +1,5 @@
 import logging.config
-from daemon import Daemon
+from .daemon import Daemon
 
 import sys
 import time
@@ -7,6 +7,10 @@ import signal
 import logging
 import argparse
 import traceback
+if sys.version_info[0] == 2:
+  import ConfigParser as CP
+else:
+  import configparser as CP
 
 from logging.handlers import SysLogHandler
 
@@ -75,7 +79,7 @@ def reload_config():
     """reload configuration"""
     ##
     ##TODO: INSERT CODE TO LOAD YOUR CONFIGURATION HERE, eg. :  ##
-    #newconfig=ConfigParser.ConfigParser()
+    #newconfig=CP.ConfigParser()
     #newconfig.readfp(open(CONFIGFILE))
 
     #dconfdir=os.path.join(os.path.dirname(CONFIGFILE),'conf.d')

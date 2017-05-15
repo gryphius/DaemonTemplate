@@ -21,7 +21,8 @@ class Daemon(object):
         if pid == None:
             pid = os.getpid()
         atexit.register(self.del_pid)
-        pidfd=os.open(self.pidfile, os.O_WRONLY|os.O_CREAT, 0644)
+        pidfd=os.open(self.pidfile, os.O_WRONLY|os.O_CREAT)
+        os.chmod(self.pidfile,stat.S_IRUSR|stat.S_IWUSR|stat.S_IRGRP|stat.S_IROTH)
         os.write(pidfd, "%s\n" % pid)
         os.close(pidfd)
 
@@ -33,15 +34,15 @@ class Daemon(object):
 
         try:
             pid = os.fork()
-        except OSError, e:
-            raise Exception, "%s [%d]" % (e.strerror, e.errno)
+        except OSError as e:
+            raise Exception("%s [%d]" % (e.strerror, e.errno))
 
         if (pid == 0):
             os.setsid()
             try:
                 pid = os.fork()    # Fork a second child.
-            except OSError, e:
-                raise Exception, "%s [%d]" % (e.strerror, e.errno)
+            except OSError as e:
+                raise Exception("%s [%d]" % (e.strerror, e.errno))
 
             if (pid == 0):    # The second child.
                 os.chdir('/')
@@ -74,7 +75,7 @@ class Daemon(object):
         if self.pidfile!=None:
             try:
                 self.write_pid()
-            except Exception,e:
+            except Exception as e:
                 sys.stderr.write("Could not write pid %s: %s"%(self.pidfile,str(e)))
         return(0)
 
