@@ -7,7 +7,10 @@ import signal
 import logging
 import argparse
 import traceback
-import configparser
+if sys.version_info[0] == 2:
+  import ConfigParser as CP
+else:
+  import configparser as CP
 
 from logging.handlers import SysLogHandler
 
@@ -76,10 +79,7 @@ def reload_config():
     """reload configuration"""
     ##
     ##TODO: INSERT CODE TO LOAD YOUR CONFIGURATION HERE, eg. :  ##
-    #if sys.version_info[0] == 2:
-    #  newconfig=ConfigParser.ConfigParser()
-    #else:
-    #  newconfig=configparser.ConfigParser()
+    #newconfig=CP.ConfigParser()
     #newconfig.readfp(open(CONFIGFILE))
 
     #dconfdir=os.path.join(os.path.dirname(CONFIGFILE),'conf.d')
