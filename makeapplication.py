@@ -1,6 +1,7 @@
 #!/usr/bin/python
+
 import sys
-import optparse
+import argparse
 import os
 import re
 
@@ -8,7 +9,7 @@ def errout(message):
     sys.stderr.write(message+"\n")
 
 def replace_variables(text,values):
-    for k,v in values.iteritems():
+    for k,v in values.items():
         if v==None:
             continue
         text=text.replace(k,v)
@@ -28,7 +29,7 @@ def transfer(templatedir,targetdir,values,filenameoverrides,permissions):
             targetdirname=replace_variables(dirname,values)
             absolute_targetdir=os.path.abspath(os.path.join(targetdir,targetroot,targetdirname))
             
-            print "creating directory: %s"%absolute_targetdir
+            print("creating directory: %s"%absolute_targetdir)
             if not os.path.exists(absolute_targetdir):
                 os.mkdir(absolute_targetdir)
         
@@ -38,7 +39,7 @@ def transfer(templatedir,targetdir,values,filenameoverrides,permissions):
             else:
                 targetfilename=replace_variables(filename,values)
             absolute_targetfile=os.path.abspath(os.path.join(targetdir,targetroot,targetfilename))
-            print "writing file: %s"%absolute_targetfile
+            print("writing file: %s"%absolute_targetfile)
             
             absolute_sourcefile=os.path.abspath(os.path.join(templatedir,strippedroot,filename))
             source_content=open(absolute_sourcefile).read()
@@ -52,36 +53,28 @@ def transfer(templatedir,targetdir,values,filenameoverrides,permissions):
             
 
 if __name__ == '__main__':
-
-    args=sys.argv
-    parser=optparse.OptionParser()
-    parser.add_option("-d","--directory",action="store",dest="directory",help="target directory for the new project")
-    parser.add_option("-n","--short-name",action="store",dest="shortname",help="short name of the project, one word")
-    parser.add_option("--long-name",action="store",dest="longname",help="long name of the project, can be multiple words")
-    parser.add_option("--executable-name",action="store",dest="executable",help="name of the execuable (without a path). defaults to <shortname>")
-    parser.add_option("--short-description",action="store",dest="shortdescription",help="short description of the project")
-    parser.add_option("--long-description",action="store",dest="longdescription",help="long description of the project")
-    parser.add_option("--author-name",action="store",dest="authorname",help="Author's Name")
-    parser.add_option("--author-email",action="store",dest="authoremail",help="Author's Email")
-    parser.add_option("--website",action="store",dest="website",help="project website")
+    parser=argparse.ArgumentParser()
+    parser.add_argument("-d","--directory",required=True, action="store",dest="directory",help="target directory for the new project")
+    parser.add_argument("-n","--short-name",required=True, action="store",dest="shortname",help="short name of the project, one word")
+    parser.add_argument("--long-name",action="store",dest="longname",help="long name of the project, can be multiple words")
+    parser.add_argument("--executable-name",action="store",dest="executable",help="name of the execuable (without a path). defaults to <shortname>")
+    parser.add_argument("-s", "--short-description",required=True, action="store",dest="shortdescription",help="short description of the project")
+    parser.add_argument("--long-description",action="store",dest="longdescription",help="long description of the project")
+    parser.add_argument("--author-name",action="store",dest="authorname",help="Author's Name")
+    parser.add_argument("--author-email",action="store",dest="authoremail",help="Author's Email")
+    parser.add_argument("--website",action="store",dest="website",help="project website")
     
-    (opts,args)=parser.parse_args()
-    
-    required=['directory','shortname','shortdescription']
-    
-    for requirement in required:
-        if getattr(opts,requirement)==None:
-            setattr(opts, requirement, raw_input("%s: "%requirement).strip())
-    
+    opts=parser.parse_args()
+       
     if not re.match('^[a-z]+$',opts.shortname)!=None:
         errout("shortname must be one word with only lowercase letters")
         sys.exit(1)
         
-    if opts.longname==None:
+    if opts.longname is None:
         opts.longname=opts.shortname
-    if opts.longdescription==None:
+    if opts.longdescription is None:
         opts.longdescription=opts.shortdescription
-    if opts.executable==None:
+    if opts.executable is None:
         opts.executable=opts.shortname
 
     values={
@@ -100,11 +93,11 @@ if __name__ == '__main__':
     }
     
     permissions={
-       'src/bin/__SHORTNAME__':0755,     
-       'extra/distributionscripts/centos/6/__SHORTNAME__':0755,  
-       'extra/distributionscripts/redhat/6/__SHORTNAME__':0755, 
-       'extra/distributionscripts/debian/__SHORTNAME__':0755,
-       'extra/distributionscripts/suse/__SHORTNAME__':0755,                 
+       'src/bin/__SHORTNAME__':0o755,     
+       'extra/distributionscripts/centos/6/__SHORTNAME__':0o755,  
+       'extra/distributionscripts/redhat/6/__SHORTNAME__':0o755, 
+       'extra/distributionscripts/debian/__SHORTNAME__':0o755,
+       'extra/distributionscripts/suse/__SHORTNAME__':0o755,                 
     }
     
     if not os.path.isdir(opts.directory):
